@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    android:padding="10dp"
+    >
+    
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:fillViewport="true">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/category"
+                android:text="All Categories"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/montserrat_black"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:padding="10dp"
+                android:background="@color/white"
+                android:layout_marginBottom="10dp"
+                android:drawableRight="@android:drawable/ic_menu_search"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/termText"
+                android:text="Groceries And Kitchen"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/montserrat_black"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:layout_marginBottom="10dp"
+                />
+            
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerview"
+                android:padding="5dp"
+                android:layout_marginTop="8dp"
+                android:scrollbars="vertical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Text"
+                android:text="Snacks And Drinks "
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/montserrat_black"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerview1"
+                android:padding="5dp"
+                android:layout_marginTop="8dp"
+                android:scrollbars="vertical"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_navigation"
+        android:layout_alignParentBottom="true"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        app:itemIconSize="35dp"
+        android:padding="2dp"
+        android:background="@color/white"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu"
+
+        />
+
+</RelativeLayout>

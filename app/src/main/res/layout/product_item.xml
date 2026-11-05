@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="5dp"
+    android:background="@color/white"
+    android:layout_margin="5dp"
+    >
+
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_price"
+        android:gravity="center"
+        android:text="100"
+        android:fontFamily="@font/montserrat_black"
+        android:background="@color/red"
+        android:textSize="15sp"
+        />
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_mrp"
+        android:gravity="center"
+        android:fontFamily="@font/montserrat_black"
+        android:text="MRP 150"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:background="@color/yellow"
+        />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/product_image"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_launcher_foreground"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_name"
+        android:text="Product Name"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:fontFamily="@font/montserrat_black"
+        android:maxLines="2"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/quantity"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:fontFamily="@font/montserrat_black"
+        android:textColor="@android:color/darker_gray"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_to_cart"
+        android:text="Add to Cart"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        android:padding="4dp"
+        android:fontFamily="@font/montserrat_black"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/red"
+
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cart_container"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        >
+
+        <Button
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_decrease"
+            android:text="-"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:id="@+id/item_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="16sp"
+            />
+
+        <Button
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_increase"
+            android:text="+"
+            android:textSize="16sp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
