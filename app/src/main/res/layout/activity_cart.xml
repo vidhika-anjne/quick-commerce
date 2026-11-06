@@ -38,6 +38,7 @@
 
     <!-- Scrollable Content -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_cart_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_checkout_bar"
@@ -296,6 +297,69 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <!-- Empty Cart Fullscreen View -->
+    <LinearLayout
+        android:id="@+id/layout_empty_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="24dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:background="@drawable/bg_pill_pink"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_add_shopping_cart_24"
+                app:tint="@color/zepto_pink" />
+
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/montserrat_black"
+            android:text="Your cart is empty"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_empty_cart_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center"
+            android:lineSpacingExtra="2dp"
+            android:text="Your cart is empty. Add products to continue."
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_empty_add_products"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/bg_button_primary"
+            android:fontFamily="@font/montserrat_black"
+            android:paddingHorizontal="28dp"
+            android:text="Browse Products"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
     <!-- Sticky Bottom Checkout Bar -->
     <androidx.cardview.widget.CardView
