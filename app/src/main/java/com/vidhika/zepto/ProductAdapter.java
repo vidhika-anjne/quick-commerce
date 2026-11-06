@@ -47,6 +47,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.imageView.setImageResource(product.getImageResId());
 
         holder.btnAddToCart.setOnClickListener(v -> {
+            CartManager.getInstance().addToCart(product);
             holder.btnAddToCart.setVisibility(View.GONE);
             holder.cartContainer.setVisibility(View.VISIBLE);
         });
@@ -63,16 +64,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 count--;
                 holder.tvItemCount.setText(String.valueOf(count));
             } else {
-
+                holder.tvItemCount.setText("1");
                 holder.cartContainer.setVisibility(View.GONE);
                 holder.btnAddToCart.setVisibility(View.VISIBLE);
             }
-        });
-
-        holder.btnAddToCart.setOnClickListener(v -> {
-            CartManager.getInstance().addToCart(product);
-            holder.btnAddToCart.setVisibility(View.GONE);
-            holder.cartContainer.setVisibility(View.VISIBLE);
         });
     }
 

@@ -1,85 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/zepto_bg"
-    android:padding="20dp"
-    >
+    android:background="@drawable/zepto_bg">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tagline"
-        android:layout_marginTop="120dp"
-        android:text="Groceries\ndelivered in \n10 minutes"
-        android:paddingLeft="28dp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:fontFamily="serif-monospace"
-        android:textSize="12sp"
-        />
-
-    <EditText
+    <!-- Gradient Overlay for readability -->
+    <View
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:id="@+id/phoneInput"
-        android:layout_below="@id/tagline"
-        android:layout_marginHorizontal="20dp"
-        android:hint="+91 Enter Phone Number"
-        android:background="@drawable/edittext_background"
-        android:inputType="phone"
-        android:textColorHint="#999999"
-        android:textSize="16sp"
-        android:padding="15dp"
-        android:layout_marginTop="10dp"
-        />
+        android:layout_height="match_parent"
+        android:background="#6018002E" />
 
-    <Button
+    <!-- Top Brand / Tagline section -->
+    <LinearLayout
+        android:id="@+id/top_brand_container"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:id="@+id/continueButton"
-        android:layout_below="@id/phoneInput"
-        android:layout_marginTop="20dp"
-        android:text="Continue"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:layout_marginHorizontal="20dp"
-        android:textStyle="bold"
-        android:backgroundTint="@color/pink"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/termText"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_pill_pink"
+            android:fontFamily="@font/montserrat_black"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="6dp"
+            android:text="⚡ 10 MINUTE DELIVERY"
+            android:textColor="@color/zepto_pink"
+            android:textSize="11sp"
+            android:letterSpacing="0.05" />
+
+        <TextView
+            android:id="@+id/tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat_black"
+            android:lineSpacingExtra="4dp"
+            android:text="Groceries\ndelivered in\n10 minutes"
+            android:textColor="@color/white"
+            android:textSize="34sp"
+            android:shadowColor="#80000000"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="6" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Fresh produce, dairy, snacks &amp; more at your doorstep"
+            android:textColor="#E0FFFFFF"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Bottom Sheet Card for Login -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="By Continuing, you agree to our \nTerms of use and privacy policy"
-        android:paddingLeft="28dp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:fontFamily="serif-monospace"
-        android:textSize="14sp"
-        android:gravity="center"
-        />
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="16dp"
+        android:layout_marginBottom="-10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="28dp"
+            android:paddingBottom="36dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_black"
+                android:text="Login or Sign Up"
+                android:textColor="@color/text_primary"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Enter your phone number to get started"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <!-- Phone input field with country code prefix -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edittext_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="🇮🇳 +91"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="24dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:background="@color/divider" />
+
+                <EditText
+                    android:id="@+id/phoneInput"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:hint="Mobile Number"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_muted"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <!-- Continue Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/continueButton"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/bg_button_primary"
+                android:fontFamily="@font/montserrat_black"
+                android:text="Continue"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <!-- Terms text -->
+            <TextView
+                android:id="@+id/termText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                android:text="By continuing, you agree to our \n Terms of Use &amp; Privacy Policy"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </RelativeLayout>
-    <!--<?xml version="1.0" encoding="utf-8"?>-->
-    <!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--    xmlns:tools="http://schemas.android.com/tools"-->
-    <!--    android:id="@+id/main"-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="match_parent"-->
-    <!--    tools:context=".MainActivity">-->
-
-    <!--    <TextView-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="Hello World!"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->

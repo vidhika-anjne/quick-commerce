@@ -25,6 +25,11 @@ public class CartActivity extends AppCompatActivity {
         tvTotalPrice = findViewById(R.id.total_price);
         btnCheckout = findViewById(R.id.btn_checkout);
 
+        android.view.View btnBack = findViewById(R.id.btn_back_cart);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
+
         cartItems = CartManager.getInstance().getCartItems();
         cartAdapter = new CartAdapter(this, cartItems);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

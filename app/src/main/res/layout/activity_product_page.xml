@@ -4,109 +4,231 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F8F8"
-    android:padding="10dp"
-    >
+    android:background="@color/background">
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="horizontal"
-       android:gravity="center_vertical"
-       android:background="@color/pink"
-       android:padding="5dp"
-       android:layout_marginBottom="10dp">
-
-       <de.hdodenhof.circleimageview.CircleImageView
-           android:layout_width="40dp"
-           android:layout_height="40dp"
-           android:id="@+id/profile"
-           android:layout_marginEnd="10dp"
-           android:clickable="true"
-           android:focusable="true"
-           android:src="@drawable/baseline_person_24"
-           tools:ignore="MissingClass"
-           />
-
-       <EditText
-           android:layout_width="0dp"
-           android:layout_height="50dp"
-           android:layout_weight="1"
-           android:id="@+id/search_bar"
-           android:hint="Search for lego"
-           android:fontFamily="@font/montserrat_medium"
-           android:background="@color/white"
-           android:drawableLeft="@drawable/baseline_search_24"
-           />
-
-   </LinearLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cash_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:text="75 Free Cash"
-        android:fontFamily="@font/montserrat_black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="10dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/pink"
-        android:stateListAnimator="@null"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/text"
-        android:layout_below="@id/cash_btn"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:text="Free Cash is temporarily unavailable"
-        android:fontFamily="@font/montserrat_black"
-        android:textStyle="bold"
-        android:textColor="@color/grey"
-        android:background="@color/cream"
-        android:textSize="16sp"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/first_text"
-        android:layout_below="@id/text"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:text="Trending Near You"
-        android:fontFamily="@font/montserrat_black"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_height="wrap_content"
+    <!-- Top Header with deep Zepto purple gradient -->
+    <LinearLayout
+        android:id="@+id/top_header"
         android:layout_width="match_parent"
-        android:id="@+id/recyclerview"
-        android:layout_below="@+id/first_text"
-        android:layout_marginTop="8dp"
-        android:scrollbars="vertical"
-        android:padding="5dp"
-        />
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_header_gradient"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
 
+        <!-- Location & Profile Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="⚡ 10 MINS"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:maxLines="1"
+                    android:text="Delivery to Home • Sector 4, Indiranagar ▾"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/baseline_person_24"
+                app:civ_border_color="#40FFFFFF"
+                app:civ_border_width="2dp"
+                app:civ_circle_background_color="#30FFFFFF" />
+
+        </LinearLayout>
+
+        <!-- Search Bar with sleek pill container -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_search_bar"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="14dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/baseline_search_24"
+                app:tint="@color/text_muted" />
+
+            <EditText
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="Search 'milk', 'bread', 'chips'..."
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_muted"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Scrollable content between Header and Bottom Navigation -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation"
+        android:layout_below="@id/top_header"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="16dp">
+
+            <!-- Promo Banner Card (Zepto Cash) -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#F0E4F7"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_promo_card"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/cash_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_button_primary"
+                            android:fontFamily="@font/montserrat_black"
+                            android:minHeight="0dp"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="4dp"
+                            android:text="🎉 ₹75 Free Cash"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:text="Available for your next order • Claim now"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/zepto_c" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Section Heading -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="6dp">
+
+                <TextView
+                    android:id="@+id/first_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="🔥 Trending Near You"
+                    android:textColor="@color/text_primary"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="See All ›"
+                    android:textColor="@color/zepto_pink"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Products Grid -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="8dp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"
-        app:itemIconSize="35dp"
-        android:padding="2dp"
         android:background="@color/white"
+        android:elevation="12dp"
+        app:elevation="12dp"
+        app:itemIconSize="24dp"
+        app:itemIconTint="@color/selector_nav_item"
+        app:itemTextColor="@color/selector_nav_item"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_nav_menu"
+        app:menu="@menu/bottom_nav_menu" />
 
-        />
 </RelativeLayout>

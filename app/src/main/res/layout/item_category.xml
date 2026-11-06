@@ -1,31 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    android:gravity="center"
-    >
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="1dp"
+    app:strokeColor="@color/border_card"
+    app:strokeWidth="1dp">
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:id="@+id/categoryImage"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background"/>
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/categoryName"
-        android:text="Category "
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/montserrat_black"
-        android:textStyle="bold"
-        android:paddingTop="4dp"
         android:gravity="center"
-        />
+        android:orientation="vertical"
+        android:padding="10dp">
 
+        <FrameLayout
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:background="@drawable/bg_pill_purple"
+            android:padding="8dp">
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/categoryImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_launcher_background" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/categoryName"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center"
+            android:lineSpacingExtra="1dp"
+            android:maxLines="2"
+            android:text="Category"
+            android:textColor="@color/text_primary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

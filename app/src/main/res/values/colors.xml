@@ -1,11 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <!-- Zepto Brand Colors -->
+    <color name="zepto_purple_dark">#2E004B</color>
+    <color name="zepto_primary">#3B006A</color>
+    <color name="zepto_primary_light">#F5EEF9</color>
+    <color name="zepto_pink">#FF3269</color>
+    <color name="zepto_pink_dark">#E01A52</color>
+    <color name="zepto_pink_light">#FFF0F4</color>
+    
+    <!-- Status & Accent Colors -->
+    <color name="zepto_green">#0C831F</color>
+    <color name="zepto_green_light">#E8F8EE</color>
+    <color name="zepto_orange">#FF6B00</color>
+    <color name="zepto_orange_light">#FFF4EC</color>
+    <color name="zepto_blue">#256FEF</color>
+    <color name="zepto_blue_light">#EEF4FF</color>
+    
+    <!-- Neutral / Surface Colors -->
+    <color name="background">#F7F8FA</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="text_primary">#1C1C28</color>
+    <color name="text_secondary">#6E7191</color>
+    <color name="text_muted">#9E9EB0</color>
+    <color name="divider">#ECEEF2</color>
+    <color name="border_card">#E5E7EB</color>
+    <color name="shimmer_bg">#F0F1F5</color>
+    
+    <!-- Legacy aliases preserved for backwards compatibility -->
+    <color name="black">#1C1C28</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="pink">#EC407B</color>
-    <color name="grey">#777072</color>
-    <color name="cream">#D6AB77</color>
-    <color name="red">#ED0C26</color>
-    <color name="yellow">#CDDC39</color>
-    <color name="green">#103A12</color>
+    <color name="pink">#FF3269</color>
+    <color name="grey">#6E7191</color>
+    <color name="cream">#FFF4EC</color>
+    <color name="red">#E01A52</color>
+    <color name="yellow">#FFB703</color>
+    <color name="green">#0C831F</color>
 </resources>

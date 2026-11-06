@@ -21,15 +21,28 @@ public class PaymentActivity extends AppCompatActivity {
         tvTotalAmount = findViewById(R.id.total_amount_textview);
 
         totalAmount = getIntent().getIntExtra("TOTAL_AMOUNT", 0);
-        tvTotalAmount.setText("Total Amount: ₹" + totalAmount);
+        tvTotalAmount.setText("To Pay: ₹" + totalAmount);
+
+        View btnBack = findViewById(R.id.btn_back_payment);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
     }
 
     public void payWithGPay(View view) {
         startUPIPayment("your_upi_id@okicici", "Google Pay");
     }
 
+    public void payWithGpay(View view) {
+        payWithGPay(view);
+    }
+
     public void payWithPhonePe(View view) {
         startUPIPayment("your_upi_id@ybl", "PhonePe");
+    }
+
+    public void payWithPhonepe(View view) {
+        payWithPhonePe(view);
     }
 
     public void payWithPaytm(View view) {
