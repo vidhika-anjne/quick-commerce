@@ -27,6 +27,8 @@ public class Apparel extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apparel);
 
+        CartManager.getInstance(this);
+
         recyclerView =findViewById(R.id.recyclerView);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 

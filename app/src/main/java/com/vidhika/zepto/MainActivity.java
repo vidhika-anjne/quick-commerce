@@ -50,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
         phoneInput = findViewById(R.id.phoneInput);
         continueButton = findViewById(R.id.continueButton);
 
+        // Initialize offline cache managers
+        CartManager.getInstance(this);
+        ProductCacheManager.loadProducts(this);
+
         TextView termsText = findViewById(R.id.termText);
         String fullText = "By continuing, you agree to our \n Terms of Use & Privacy Policy";
         SpannableString spannable = new SpannableString(fullText);

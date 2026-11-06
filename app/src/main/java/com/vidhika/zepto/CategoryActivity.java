@@ -35,6 +35,8 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
+        CartManager.getInstance(this);
+
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView1 = findViewById(R.id.recyclerview1);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);

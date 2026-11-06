@@ -112,6 +112,39 @@
             android:paddingTop="12dp"
             android:paddingBottom="16dp">
 
+            <!-- Offline Banner (Shown when disconnected) -->
+            <LinearLayout
+                android:id="@+id/layout_offline_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_offline_banner"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="10dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_cloud_off"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_offline_msg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="Offline Mode • Showing cached products &amp; cart"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
             <!-- Promo Banner Card (Zepto Cash) -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
