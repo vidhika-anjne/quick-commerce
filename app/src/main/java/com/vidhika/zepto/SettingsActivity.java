@@ -32,6 +32,13 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(new Intent(SettingsActivity.this, OrdersActivity.class));
             });
         }
+
+        View rowAddresses = findViewById(R.id.row_saved_addresses);
+        if (rowAddresses != null) {
+            rowAddresses.setOnClickListener(v -> {
+                startActivity(new Intent(SettingsActivity.this, AddressActivity.class));
+            });
+        }
     }
 
     public void zeptoCash(View view) {
