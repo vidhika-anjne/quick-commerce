@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
 
 public class PaymentActivity extends AppCompatActivity {
     private int totalAmount;
@@ -26,6 +28,26 @@ public class PaymentActivity extends AppCompatActivity {
         View btnBack = findViewById(R.id.btn_back_payment);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());
+        }
+
+        View payCod = findViewById(R.id.card_pay_cod);
+        if (payCod != null) {
+            payCod.setOnClickListener(v -> placeOrderAndTrack("Cash on Delivery"));
+        }
+
+        View payCards = findViewById(R.id.card_pay_cards);
+        if (payCards != null) {
+            payCards.setOnClickListener(v -> placeOrderAndTrack("Credit / Debit Card"));
+        }
+
+        View payPluxee = findViewById(R.id.card_pay_pluxee);
+        if (payPluxee != null) {
+            payPluxee.setOnClickListener(v -> placeOrderAndTrack("Pluxee Meal Card"));
+        }
+
+        View btnAddUpi = findViewById(R.id.btn_add_upi);
+        if (btnAddUpi != null) {
+            btnAddUpi.setOnClickListener(v -> placeOrderAndTrack("UPI Payment"));
         }
     }
 
@@ -49,10 +71,10 @@ public class PaymentActivity extends AppCompatActivity {
         startUPIPayment("your_upi@ptsbi", "Paytm");
     }
 
-        private void startUPIPayment(String upiId, String appName) {
+    private void startUPIPayment(String upiId, String appName) {
         try {
             Uri uri = Uri.parse("upi://pay?pa=" + upiId +
-                    "&pn=MerchantName" +
+                    "&pn=Zepto" +
                     "&mc=0000" +
                     "&tid=021254" +
                     "&tr=123456789" +
@@ -63,7 +85,23 @@ public class PaymentActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(this, appName + " app not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, appName + " selected. Processing order...", Toast.LENGTH_SHORT).show();
+            placeOrderAndTrack(appName);
         }
+    }
+
+    private void placeOrderAndTrack(String paymentMethod) {
+        List<Product> cartProducts = CartManager.getInstance().getCartItems();
+
+        if (cartProducts != null && !cartProducts.isEmpty()) {
+            OrderManager.getInstance().createOrderFromCart(cartProducts, totalAmount, paymentMethod);
+            CartManager.getInstance().clearCart();
+        }
+
+        Toast.makeText(this, "⚡ Order Placed Successfully via " + paymentMethod + "!", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(PaymentActivity.this, OrdersActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

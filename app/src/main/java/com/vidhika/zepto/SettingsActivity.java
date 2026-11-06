@@ -2,6 +2,7 @@ package com.vidhika.zepto;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -16,6 +17,20 @@ public class SettingsActivity extends AppCompatActivity {
         View btnBack = findViewById(R.id.btn_back_settings);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());
+        }
+
+        View btnOrders = findViewById(R.id.btn_action_orders);
+        if (btnOrders != null) {
+            btnOrders.setOnClickListener(v -> {
+                startActivity(new Intent(SettingsActivity.this, OrdersActivity.class));
+            });
+        }
+
+        View rowOrders = findViewById(R.id.row_orders_reordering);
+        if (rowOrders != null) {
+            rowOrders.setOnClickListener(v -> {
+                startActivity(new Intent(SettingsActivity.this, OrdersActivity.class));
+            });
         }
     }
 

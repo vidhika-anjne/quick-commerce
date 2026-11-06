@@ -78,7 +78,9 @@ public class ProductPage extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.nav_back) {
-                    startActivity(new Intent(ProductPage.this, ProductPage.class));
+                    return true;
+                } else if (itemId == R.id.nav_orders) {
+                    startActivity(new Intent(ProductPage.this, OrdersActivity.class));
                     return true;
                 } else if (itemId == R.id.nav_categories) {
                     startActivity(new Intent(ProductPage.this, CategoryActivity.class));

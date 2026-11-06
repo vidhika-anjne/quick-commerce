@@ -56,7 +56,10 @@ public class Apparel extends AppCompatActivity {
                     Intent intent = new Intent(Apparel.this, ProductPage.class);
                     startActivity(intent);
                     return true;
-
+                } else if (itemId == R.id.nav_orders) {
+                    Intent intent = new Intent(Apparel.this, OrdersActivity.class);
+                    startActivity(intent);
+                    return true;
                 } else if(itemId == R.id.nav_categories) {
                     Intent intent = new Intent(Apparel.this, CategoryActivity.class);
                     startActivity(intent);

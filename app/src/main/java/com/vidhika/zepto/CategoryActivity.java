@@ -70,7 +70,10 @@ public class CategoryActivity extends AppCompatActivity {
                     Intent intent = new Intent(CategoryActivity.this, ProductPage.class);
                     startActivity(intent);
                     return true;
-
+                } else if (itemId == R.id.nav_orders) {
+                    Intent intent = new Intent(CategoryActivity.this, OrdersActivity.class);
+                    startActivity(intent);
+                    return true;
                 } else if(itemId == R.id.nav_categories) {
                     Intent intent = new Intent(CategoryActivity.this, CategoryActivity.class);
                     startActivity(intent);
