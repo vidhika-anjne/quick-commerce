@@ -46,6 +46,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.tvQuantity.setText(product.getQuantity());
         holder.imageView.setImageResource(product.getImageResId());
 
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, ProductDetailsActivity.class);
+            intent.putExtra("product_name", product.getName());
+            intent.putExtra("product_image", product.getImageResId());
+            intent.putExtra("product_price", product.getPrice());
+            intent.putExtra("product_mrp", product.getMrp());
+            intent.putExtra("product_quantity", product.getQuantity());
+            intent.putExtra("product_description", product.getDescription());
+            mContext.startActivity(intent);
+        });
+
         holder.btnAddToCart.setOnClickListener(v -> {
             CartManager.getInstance().addToCart(product);
             holder.btnAddToCart.setVisibility(View.GONE);

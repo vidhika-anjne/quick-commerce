@@ -163,6 +163,9 @@ public class ProductPage extends AppCompatActivity {
         if (layoutOfflineBanner != null) {
             layoutOfflineBanner.setVisibility(isConnected ? View.GONE : View.VISIBLE);
         }
+        if (productAdapter != null) {
+            productAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

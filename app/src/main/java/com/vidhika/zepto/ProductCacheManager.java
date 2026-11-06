@@ -30,6 +30,7 @@ public class ProductCacheManager {
                 jsonObject.put("price", product.getPrice());
                 jsonObject.put("mrp", product.getMrp());
                 jsonObject.put("quantity", product.getQuantity());
+                jsonObject.put("description", product.getDescription());
                 jsonArray.put(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -64,8 +65,9 @@ public class ProductCacheManager {
                 String price = obj.getString("price");
                 String mrp = obj.getString("mrp");
                 String quantity = obj.getString("quantity");
+                String description = obj.optString("description", Product.getDefaultDescription(name));
 
-                productList.add(new Product(name, imageResId, price, mrp, quantity));
+                productList.add(new Product(name, imageResId, price, mrp, quantity, description));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -92,4 +94,3 @@ public class ProductCacheManager {
         return list;
     }
 }
-
