@@ -109,7 +109,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         btnAddToCart.setOnClickListener(v -> {
             CartManager.getInstance().addToCart(currentProduct);
-            itemCount = 1;
+            itemCount = CartManager.getInstance().getProductQuantity(productName);
             tvDetailCount.setText(String.valueOf(itemCount));
             btnAddToCart.setVisibility(View.GONE);
             layoutStepper.setVisibility(View.VISIBLE);
@@ -118,54 +118,45 @@ public class ProductDetailsActivity extends AppCompatActivity {
         });
 
         btnIncrease.setOnClickListener(v -> {
-            itemCount++;
-            tvDetailCount.setText(String.valueOf(itemCount));
             CartManager.getInstance().addToCart(currentProduct);
+            itemCount = CartManager.getInstance().getProductQuantity(productName);
+            tvDetailCount.setText(String.valueOf(itemCount));
             updateCartBadge();
         });
 
         btnDecrease.setOnClickListener(v -> {
-            if (itemCount > 1) {
-                itemCount--;
+            CartManager.getInstance().removeFromCart(currentProduct);
+            itemCount = CartManager.getInstance().getProductQuantity(productName);
+            if (itemCount > 0) {
                 tvDetailCount.setText(String.valueOf(itemCount));
-                CartManager.getInstance().removeFromCart(currentProduct);
-                updateCartBadge();
             } else {
-                itemCount = 0;
-                CartManager.getInstance().removeFromCart(currentProduct);
                 layoutStepper.setVisibility(View.GONE);
                 btnAddToCart.setVisibility(View.VISIBLE);
-                updateCartBadge();
                 Toast.makeText(ProductDetailsActivity.this, productName + " removed from cart", Toast.LENGTH_SHORT).show();
             }
+            updateCartBadge();
         });
     }
 
     private void checkIfProductInCart() {
-        List<Product> cartItems = CartManager.getInstance().getCartItems();
-        int count = 0;
-        for (Product item : cartItems) {
-            if (item.getName().equalsIgnoreCase(productName)) {
-                count++;
-            }
-        }
-
+        int count = CartManager.getInstance().getProductQuantity(productName);
         if (count > 0) {
             itemCount = count;
             tvDetailCount.setText(String.valueOf(itemCount));
             btnAddToCart.setVisibility(View.GONE);
             layoutStepper.setVisibility(View.VISIBLE);
         } else {
+            itemCount = 0;
             btnAddToCart.setVisibility(View.VISIBLE);
             layoutStepper.setVisibility(View.GONE);
         }
     }
 
     private void updateCartBadge() {
-        List<Product> items = CartManager.getInstance().getCartItems();
-        if (items != null && !items.isEmpty()) {
+        int totalItems = CartManager.getInstance().getTotalItemCount();
+        if (totalItems > 0) {
             tvCartBadge.setVisibility(View.VISIBLE);
-            tvCartBadge.setText(String.valueOf(items.size()));
+            tvCartBadge.setText(String.valueOf(totalItems));
         } else {
             tvCartBadge.setVisibility(View.GONE);
         }
@@ -178,4 +169,3 @@ public class ProductDetailsActivity extends AppCompatActivity {
         checkIfProductInCart();
     }
 }
-

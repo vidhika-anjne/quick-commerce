@@ -2,19 +2,31 @@ package com.vidhika.zepto;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductCacheManager {
 
+    private static final String TAG = "ProductCacheManager";
     private static final String PREF_NAME = "zepto_offline_cache";
     private static final String KEY_CACHED_PRODUCTS = "cached_products";
     private static final String KEY_CACHE_TIMESTAMP = "cache_timestamp";
+
+    public interface OnCatalogUpdatedListener {
+        void onCatalogUpdated(List<Product> products);
+    }
 
     public static void saveProducts(Context context, List<Product> productList) {
         if (context == null || productList == null) return;
@@ -92,5 +104,107 @@ public class ProductCacheManager {
         list.add(new Product("Amul Butter", R.drawable.amul_butter, "₹60", "MRP ₹90", "50 gm"));
         list.add(new Product("Coriander", R.drawable.corianderc, "₹18", "MRP ₹24", "1 "));
         return list;
+    }
+
+    /**
+     * Fetch products from Cloud Firestore. If Firestore is empty, it automatically seeds
+     * the initial catalog to Firestore so products exist in the cloud for free.
+     */
+    public static void syncProductsFromFirestore(Context context, OnCatalogUpdatedListener listener) {
+        if (context == null) return;
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("products")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                        List<Product> cloudProducts = new ArrayList<>();
+                        for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                            String name = doc.getString("name");
+                            if (name == null || name.isEmpty()) continue;
+
+                            String price = doc.getString("price");
+                            String mrp = doc.getString("mrp");
+                            String quantity = doc.getString("quantity");
+                            String description = doc.getString("description");
+                            String imageKey = doc.getString("imageKey");
+
+                            if (price == null) price = "₹0";
+                            if (mrp == null) mrp = "MRP ₹0";
+                            if (quantity == null) quantity = "1 unit";
+                            if (description == null) description = Product.getDefaultDescription(name);
+
+                            int imageRes = resolveDrawableResId(context, imageKey, name);
+                            cloudProducts.add(new Product(name, imageRes, price, mrp, quantity, description));
+                        }
+
+                        if (!cloudProducts.isEmpty()) {
+                            saveProducts(context, cloudProducts);
+                            if (listener != null) {
+                                listener.onCatalogUpdated(cloudProducts);
+                            }
+                            return;
+                        }
+                    }
+
+                    // Collection empty, seed catalog to Firestore in cloud
+                    seedProductsToFirestore(context, listener);
+                })
+                .addOnFailureListener(e -> {
+                    Log.w(TAG, "Firestore product fetch failed, fallback to local cache: " + e.getMessage());
+                    // Fallback to local cache
+                    if (listener != null) {
+                        listener.onCatalogUpdated(loadProducts(context));
+                    }
+                });
+    }
+
+    /**
+     * Seeds initial products into Cloud Firestore.
+     */
+    public static void seedProductsToFirestore(Context context, OnCatalogUpdatedListener listener) {
+        List<Product> catalog = getDefaultCatalog();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        for (Product product : catalog) {
+            Map<String, Object> data = new HashMap<>();
+            data.put("name", product.getName());
+            data.put("price", product.getPrice());
+            data.put("mrp", product.getMrp());
+            data.put("quantity", product.getQuantity());
+            data.put("description", product.getDescription());
+            data.put("imageKey", mapProductToImageKey(product.getName()));
+
+            String docId = product.getName().replaceAll("[^a-zA-Z0-9]", "_").toLowerCase();
+            db.collection("products").document(docId).set(data, SetOptions.merge());
+        }
+
+        saveProducts(context, catalog);
+        if (listener != null) {
+            listener.onCatalogUpdated(catalog);
+        }
+    }
+
+    private static String mapProductToImageKey(String name) {
+        if (name == null) return "fortune";
+        String lower = name.toLowerCase();
+        if (lower.contains("sunflower") || lower.contains("fortune")) return "fortune";
+        if (lower.contains("milk") || lower.contains("amul taaza")) return "amul_milk";
+        if (lower.contains("onion")) return "onion";
+        if (lower.contains("coconut")) return "coconut";
+        if (lower.contains("butter")) return "amul_butter";
+        if (lower.contains("coriander")) return "corianderc";
+        return "fortune";
+    }
+
+    private static int resolveDrawableResId(Context context, String imageKey, String productName) {
+        if (imageKey != null && !imageKey.isEmpty()) {
+            int resId = context.getResources().getIdentifier(imageKey, "drawable", context.getPackageName());
+            if (resId != 0) return resId;
+        }
+
+        String fallbackKey = mapProductToImageKey(productName);
+        int fallbackResId = context.getResources().getIdentifier(fallbackKey, "drawable", context.getPackageName());
+        return (fallbackResId != 0) ? fallbackResId : R.drawable.fortune;
     }
 }

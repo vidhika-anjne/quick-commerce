@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
@@ -20,19 +21,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     private Context context;
-    private List<Product> cartItems;
+    private List<CartItem> cartItems;
     private CartManager cartManager;
     private OnCartChangedListener onCartChangedListener;
 
-    public CartAdapter(Context context, List<Product> cartItems) {
+    public CartAdapter(Context context, List<CartItem> cartItems) {
         this(context, cartItems, null);
     }
 
-    public CartAdapter(Context context, List<Product> cartItems, OnCartChangedListener listener) {
+    public CartAdapter(Context context, List<CartItem> cartItems, OnCartChangedListener listener) {
         this.context = context;
-        this.cartItems = cartItems;
+        this.cartItems = (cartItems != null) ? cartItems : new ArrayList<>();
         this.cartManager = CartManager.getInstance(context);
         this.onCartChangedListener = listener;
+    }
+
+    public void updateCartItems(List<CartItem> items) {
+        this.cartItems = (items != null) ? items : new ArrayList<>();
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -44,25 +50,59 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
-        Product product = cartItems.get(position);
+        CartItem item = cartItems.get(position);
+        Product product = item.getProduct();
 
         holder.tvProductName.setText(product.getName());
-        holder.tvProductPrice.setText(product.getPrice());
         holder.productImage.setImageResource(product.getImageResId());
 
-        holder.btnRemove.setOnClickListener(v -> {
+        if (holder.tvUnitPrice != null) {
+            holder.tvUnitPrice.setText(product.getQuantity() + " • " + product.getPrice() + " each");
+        }
+
+        holder.tvProductPrice.setText("₹" + item.getTotalPrice());
+        holder.tvItemCount.setText(String.valueOf(item.getQuantity()));
+
+        holder.btnIncrease.setOnClickListener(v -> {
             int currentPos = holder.getAdapterPosition();
             if (currentPos != RecyclerView.NO_POSITION && currentPos < cartItems.size()) {
-                Product toRemove = cartItems.get(currentPos);
-                cartManager.removeFromCart(toRemove);
-                cartItems.remove(currentPos);
-                notifyItemRemoved(currentPos);
-                notifyItemRangeChanged(currentPos, cartItems.size());
+                CartItem targetItem = cartItems.get(currentPos);
+                cartManager.addToCart(targetItem.getProduct());
+                cartItems = cartManager.getCartItemList();
+                notifyItemChanged(currentPos);
                 if (onCartChangedListener != null) {
                     onCartChangedListener.onCartChanged();
                 }
             }
         });
+
+        holder.btnDecrease.setOnClickListener(v -> {
+            int currentPos = holder.getAdapterPosition();
+            if (currentPos != RecyclerView.NO_POSITION && currentPos < cartItems.size()) {
+                CartItem targetItem = cartItems.get(currentPos);
+                cartManager.removeFromCart(targetItem.getProduct());
+                cartItems = cartManager.getCartItemList();
+                notifyDataSetChanged();
+                if (onCartChangedListener != null) {
+                    onCartChangedListener.onCartChanged();
+                }
+            }
+        });
+
+        if (holder.btnLegacyRemove != null) {
+            holder.btnLegacyRemove.setOnClickListener(v -> {
+                int currentPos = holder.getAdapterPosition();
+                if (currentPos != RecyclerView.NO_POSITION && currentPos < cartItems.size()) {
+                    CartItem targetItem = cartItems.get(currentPos);
+                    cartManager.removeProductCompletely(targetItem.getProduct());
+                    cartItems = cartManager.getCartItemList();
+                    notifyDataSetChanged();
+                    if (onCartChangedListener != null) {
+                        onCartChangedListener.onCartChanged();
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -72,15 +112,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     public static class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
-        TextView tvProductName, tvProductPrice;
-        Button btnRemove;
+        TextView tvProductName, tvProductPrice, tvUnitPrice, tvItemCount;
+        View btnIncrease, btnDecrease;
+        View btnLegacyRemove;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             productImage = itemView.findViewById(R.id.cart_product_image);
             tvProductName = itemView.findViewById(R.id.cart_product_name);
+            tvUnitPrice = itemView.findViewById(R.id.cart_product_unit_price);
             tvProductPrice = itemView.findViewById(R.id.cart_product_price);
-            btnRemove = itemView.findViewById(R.id.remove_from_cart);
+            tvItemCount = itemView.findViewById(R.id.tv_cart_item_count);
+            btnIncrease = itemView.findViewById(R.id.btn_cart_increase);
+            btnDecrease = itemView.findViewById(R.id.btn_cart_decrease);
+            btnLegacyRemove = itemView.findViewById(R.id.remove_from_cart);
         }
     }
 }

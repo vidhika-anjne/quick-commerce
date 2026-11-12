@@ -1,15 +1,49 @@
 *.iml
-.gradle
+.gradle/
 /local.properties
-/.idea/caches
-/.idea/libraries
+local.properties
+.DS_Store
+Thumbs.db
+
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+/build/
+app/build/
+
+# Files for ART / Dalvik / Java
+*.dex
+*.class
+bin/
+gen/
+out/
+
+# Android Studio & IntelliJ IDEA
+/.idea/caches/
+/.idea/libraries/
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
+.idea/shelf/
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/misc.xml
+.idea/deploymentTargetDropDown.xml
+.cxx/
+.externalNativeBuild/
+/captures/
+.navigation/
+
+# Keystores & Signing
+*.jks
+*.keystore
+
+# Firebase CLI cache & logs
+.firebase/
+*-debug.log
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*

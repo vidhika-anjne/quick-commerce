@@ -134,5 +134,42 @@ public class OrderManager {
         orders.add(0, newOrder);
         return newOrder;
     }
+
+    public Order createOrderFromCartItems(List<CartItem> cartItems, int totalAmount, String paymentMethod) {
+        String orderId = "#ZEP-" + (10000 + new Random().nextInt(90000));
+        SimpleDateFormat sdf = new SimpleDateFormat("Today, hh:mm a", Locale.getDefault());
+        String orderDate = sdf.format(new Date());
+
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (CartItem item : cartItems) {
+            Product product = item.getProduct();
+            String qtyLabel = product.getQuantity();
+            if (item.getQuantity() > 1) {
+                qtyLabel = qtyLabel + " • Qty: " + item.getQuantity();
+            }
+            orderItems.add(new OrderItem(
+                    product.getName(),
+                    product.getImageResId(),
+                    "₹" + item.getTotalPrice(),
+                    qtyLabel,
+                    "📦 Packed at Dark Store",
+                    "Item picked and verified by dark store associate"
+            ));
+        }
+
+        Order newOrder = new Order(
+                orderId,
+                orderDate,
+                "₹" + totalAmount,
+                "Flat 402, Green Glen Layout, Indiranagar (" + paymentMethod + ")",
+                "Order Placed",
+                2,
+                "⚡ Arriving in 10 mins • Preparing shipment",
+                orderItems
+        );
+
+        orders.add(0, newOrder);
+        return newOrder;
+    }
 }
 

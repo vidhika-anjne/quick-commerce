@@ -20,7 +20,7 @@ public class CartActivity extends AppCompatActivity {
     private TextView tvTotalPrice;
     private Button btnCheckout;
     private CartAdapter cartAdapter;
-    private List<Product> cartItems;
+    private List<CartItem> cartItems;
     private LinearLayout layoutOfflineBanner;
     private NestedScrollView scrollCartContent;
     private LinearLayout layoutEmptyCart;
@@ -64,7 +64,7 @@ public class CartActivity extends AppCompatActivity {
             layoutOfflineBanner.setVisibility(isOnline ? View.GONE : View.VISIBLE);
         }
 
-        cartItems = CartManager.getInstance().getCartItems();
+        cartItems = CartManager.getInstance().getCartItemList();
         cartAdapter = new CartAdapter(this, cartItems, () -> {
             calculateTotal();
             updateCartUi();
@@ -78,7 +78,7 @@ public class CartActivity extends AppCompatActivity {
 
         btnCheckout.setOnClickListener(v -> {
             // Strictly prevent users from proceeding to checkout if the cart is empty
-            if (cartItems == null || cartItems.isEmpty() || calculateTotal() <= 0) {
+            if (CartManager.getInstance().isCartEmpty() || calculateTotal() <= 0) {
                 Toast.makeText(CartActivity.this, "Your cart is empty. Add products to continue.", Toast.LENGTH_SHORT).show();
                 updateCartUi();
                 return;
@@ -95,7 +95,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void updateCartUi() {
-        boolean isEmpty = (cartItems == null || cartItems.isEmpty());
+        boolean isEmpty = CartManager.getInstance().isCartEmpty();
 
         if (isEmpty) {
             if (scrollCartContent != null) scrollCartContent.setVisibility(View.GONE);
@@ -117,23 +117,16 @@ public class CartActivity extends AppCompatActivity {
             layoutOfflineBanner.setVisibility(isOnline ? View.GONE : View.VISIBLE);
         }
 
-        cartItems = CartManager.getInstance().getCartItems();
+        cartItems = CartManager.getInstance().getCartItemList();
         if (cartAdapter != null) {
-            cartAdapter.notifyDataSetChanged();
+            cartAdapter.updateCartItems(cartItems);
         }
         calculateTotal();
         updateCartUi();
     }
 
     private int calculateTotal() {
-        int total = 0;
-        if (cartItems != null) {
-            for (Product product : cartItems) {
-                try {
-                    total += Integer.parseInt(product.getPrice().replace("₹", "").trim());
-                } catch (Exception ignored) {}
-            }
-        }
+        int total = CartManager.getInstance().getTotalCartAmount();
         tvTotalPrice.setText("Total: ₹" + total);
         return total;
     }

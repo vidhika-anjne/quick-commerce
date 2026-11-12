@@ -91,10 +91,10 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void placeOrderAndTrack(String paymentMethod) {
-        List<Product> cartProducts = CartManager.getInstance().getCartItems();
+        List<CartItem> cartItems = CartManager.getInstance().getCartItemList();
 
-        if (cartProducts != null && !cartProducts.isEmpty()) {
-            OrderManager.getInstance().createOrderFromCart(cartProducts, totalAmount, paymentMethod);
+        if (cartItems != null && !cartItems.isEmpty()) {
+            OrderManager.getInstance().createOrderFromCartItems(cartItems, totalAmount, paymentMethod);
             CartManager.getInstance().clearCart();
         }
 

@@ -24,12 +24,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public ProductAdapter(Context context, List<Product> productList) {
         this.mContext = context;
         this.mProductList = productList;
+        CartManager.getInstance(context);
     }
 
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(mContext).inflate(R.layout.product_item, parent, false);
         return new ProductViewHolder(view);
     }
@@ -46,38 +46,68 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.tvQuantity.setText(product.getQuantity());
         holder.imageView.setImageResource(product.getImageResId());
 
+        // Read current quantity from CartManager to prevent recycled view bugs
+        int currentCartQty = CartManager.getInstance(mContext).getProductQuantity(product);
+        if (currentCartQty > 0) {
+            holder.btnAddToCart.setVisibility(View.GONE);
+            holder.cartContainer.setVisibility(View.VISIBLE);
+            holder.tvItemCount.setText(String.valueOf(currentCartQty));
+        } else {
+            holder.btnAddToCart.setVisibility(View.VISIBLE);
+            holder.cartContainer.setVisibility(View.GONE);
+            holder.tvItemCount.setText("1");
+        }
+
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, ProductDetailsActivity.class);
-            intent.putExtra("product_name", product.getName());
-            intent.putExtra("product_image", product.getImageResId());
-            intent.putExtra("product_price", product.getPrice());
-            intent.putExtra("product_mrp", product.getMrp());
-            intent.putExtra("product_quantity", product.getQuantity());
-            intent.putExtra("product_description", product.getDescription());
-            mContext.startActivity(intent);
+            int currentPos = holder.getAdapterPosition();
+            if (currentPos != RecyclerView.NO_POSITION && currentPos < mProductList.size()) {
+                Product target = mProductList.get(currentPos);
+                Intent intent = new Intent(mContext, ProductDetailsActivity.class);
+                intent.putExtra("product_name", target.getName());
+                intent.putExtra("product_image", target.getImageResId());
+                intent.putExtra("product_price", target.getPrice());
+                intent.putExtra("product_mrp", target.getMrp());
+                intent.putExtra("product_quantity", target.getQuantity());
+                intent.putExtra("product_description", target.getDescription());
+                mContext.startActivity(intent);
+            }
         });
 
         holder.btnAddToCart.setOnClickListener(v -> {
-            CartManager.getInstance().addToCart(product);
-            holder.btnAddToCart.setVisibility(View.GONE);
-            holder.cartContainer.setVisibility(View.VISIBLE);
+            int currentPos = holder.getAdapterPosition();
+            if (currentPos != RecyclerView.NO_POSITION && currentPos < mProductList.size()) {
+                Product target = mProductList.get(currentPos);
+                CartManager.getInstance(mContext).addToCart(target);
+                int qty = CartManager.getInstance(mContext).getProductQuantity(target);
+                holder.btnAddToCart.setVisibility(View.GONE);
+                holder.cartContainer.setVisibility(View.VISIBLE);
+                holder.tvItemCount.setText(String.valueOf(qty));
+            }
         });
 
         holder.btnIncrease.setOnClickListener(v -> {
-            int count = Integer.parseInt(holder.tvItemCount.getText().toString());
-            count++;
-            holder.tvItemCount.setText(String.valueOf(count));
+            int currentPos = holder.getAdapterPosition();
+            if (currentPos != RecyclerView.NO_POSITION && currentPos < mProductList.size()) {
+                Product target = mProductList.get(currentPos);
+                CartManager.getInstance(mContext).addToCart(target);
+                int qty = CartManager.getInstance(mContext).getProductQuantity(target);
+                holder.tvItemCount.setText(String.valueOf(qty));
+            }
         });
 
         holder.btnDecrease.setOnClickListener(v -> {
-            int count = Integer.parseInt(holder.tvItemCount.getText().toString());
-            if (count > 1) {
-                count--;
-                holder.tvItemCount.setText(String.valueOf(count));
-            } else {
-                holder.tvItemCount.setText("1");
-                holder.cartContainer.setVisibility(View.GONE);
-                holder.btnAddToCart.setVisibility(View.VISIBLE);
+            int currentPos = holder.getAdapterPosition();
+            if (currentPos != RecyclerView.NO_POSITION && currentPos < mProductList.size()) {
+                Product target = mProductList.get(currentPos);
+                CartManager.getInstance(mContext).removeFromCart(target);
+                int qty = CartManager.getInstance(mContext).getProductQuantity(target);
+                if (qty > 0) {
+                    holder.tvItemCount.setText(String.valueOf(qty));
+                } else {
+                    holder.cartContainer.setVisibility(View.GONE);
+                    holder.btnAddToCart.setVisibility(View.VISIBLE);
+                    holder.tvItemCount.setText("1");
+                }
             }
         });
     }

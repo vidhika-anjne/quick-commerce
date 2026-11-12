@@ -117,22 +117,29 @@ public class ProductPage extends AppCompatActivity {
     private void loadProductsWithOfflineSupport() {
         boolean isOnline = NetworkUtils.isNetworkAvailable(this);
 
+        // Always load immediately from cache so UI renders without delay
+        productList = ProductCacheManager.loadProducts(this);
+        if (layoutOfflineBanner != null) {
+            layoutOfflineBanner.setVisibility(isOnline ? View.GONE : View.VISIBLE);
+            if (!isOnline && tvOfflineMsg != null) {
+                tvOfflineMsg.setText("Offline Mode • Browsing " + productList.size() + " cached products");
+            }
+        }
+
+        // If online, sync live product catalog from Cloud Firestore in the cloud
         if (isOnline) {
-            // Online: Load products and cache them locally for offline access
-            productList = ProductCacheManager.getDefaultCatalog();
-            ProductCacheManager.saveProducts(this, productList);
-            if (layoutOfflineBanner != null) {
-                layoutOfflineBanner.setVisibility(View.GONE);
-            }
-        } else {
-            // Offline: Retrieve previously cached products
-            productList = ProductCacheManager.loadProducts(this);
-            if (layoutOfflineBanner != null) {
-                layoutOfflineBanner.setVisibility(View.VISIBLE);
-                if (tvOfflineMsg != null) {
-                    tvOfflineMsg.setText("Offline Mode • Browsing " + productList.size() + " cached products");
-                }
-            }
+            ProductCacheManager.syncProductsFromFirestore(this, updatedList -> {
+                runOnUiThread(() -> {
+                    productList = updatedList;
+                    if (searchBar != null) {
+                        filterProducts(searchBar.getText().toString());
+                    } else {
+                        filteredList.clear();
+                        filteredList.addAll(productList);
+                        productAdapter.notifyDataSetChanged();
+                    }
+                });
+            });
         }
     }
 
@@ -141,11 +148,19 @@ public class ProductPage extends AppCompatActivity {
 
         if (isConnected) {
             layoutOfflineBanner.setVisibility(View.GONE);
-            Toast.makeText(this, "⚡ You're back online!", Toast.LENGTH_SHORT).show();
-            // Refresh and save fresh catalog
-            productList = ProductCacheManager.getDefaultCatalog();
-            ProductCacheManager.saveProducts(this, productList);
-            filterProducts(searchBar.getText().toString());
+            Toast.makeText(this, "⚡ You're back online! Syncing catalog...", Toast.LENGTH_SHORT).show();
+            ProductCacheManager.syncProductsFromFirestore(this, updatedList -> {
+                runOnUiThread(() -> {
+                    productList = updatedList;
+                    if (searchBar != null) {
+                        filterProducts(searchBar.getText().toString());
+                    } else {
+                        filteredList.clear();
+                        filteredList.addAll(productList);
+                        productAdapter.notifyDataSetChanged();
+                    }
+                });
+            });
         } else {
             layoutOfflineBanner.setVisibility(View.VISIBLE);
             if (tvOfflineMsg != null) {
@@ -163,6 +178,7 @@ public class ProductPage extends AppCompatActivity {
         if (layoutOfflineBanner != null) {
             layoutOfflineBanner.setVisibility(isConnected ? View.GONE : View.VISIBLE);
         }
+        CartManager.getInstance(this).switchUser();
         if (productAdapter != null) {
             productAdapter.notifyDataSetChanged();
         }

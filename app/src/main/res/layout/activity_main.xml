@@ -16,7 +16,7 @@
         android:id="@+id/top_brand_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         android:orientation="vertical"
         android:paddingHorizontal="24dp">
 
@@ -25,36 +25,36 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_pill_pink"
             android:fontFamily="@font/montserrat_black"
+            android:letterSpacing="0.05"
             android:paddingHorizontal="14dp"
             android:paddingVertical="6dp"
             android:text="⚡ 10 MINUTE DELIVERY"
             android:textColor="@color/zepto_pink"
-            android:textSize="11sp"
-            android:letterSpacing="0.05" />
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/tagline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="14dp"
             android:fontFamily="@font/montserrat_black"
             android:lineSpacingExtra="4dp"
-            android:text="Groceries\ndelivered in\n10 minutes"
-            android:textColor="@color/white"
-            android:textSize="34sp"
             android:shadowColor="#80000000"
             android:shadowDx="0"
             android:shadowDy="2"
-            android:shadowRadius="6" />
+            android:shadowRadius="6"
+            android:text="Groceries\ndelivered in\n10 minutes"
+            android:textColor="@color/white"
+            android:textSize="32sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="Fresh produce, dairy, snacks &amp; more at your doorstep"
             android:textColor="#E0FFFFFF"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
     <!-- Bottom Sheet Card for Login -->
@@ -62,20 +62,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-10dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="24dp"
-        app:cardElevation="16dp"
-        android:layout_marginBottom="-10dp">
+        app:cardElevation="16dp">
 
         <LinearLayout
+            android:id="@+id/layout_phone_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="24dp"
-            android:paddingTop="28dp"
+            android:paddingTop="26dp"
             android:paddingBottom="36dp">
 
             <TextView
+                android:id="@+id/tv_login_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_black"
@@ -84,6 +86,7 @@
                 android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/tv_login_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -96,7 +99,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="18dp"
                 android:background="@drawable/edittext_background"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -124,7 +127,7 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/montserrat_medium"
-                    android:hint="Mobile Number"
+                    android:hint="10-digit mobile number"
                     android:inputType="phone"
                     android:maxLength="10"
                     android:textColor="@color/text_primary"
@@ -133,17 +136,31 @@
             </LinearLayout>
 
             <!-- Continue Button -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/continueButton"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_marginTop="18dp"
-                android:background="@drawable/bg_button_primary"
-                android:fontFamily="@font/montserrat_black"
-                android:text="Continue"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:layout_marginTop="18dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/continueButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_button_primary"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="Continue"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_auth"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/white"
+                    android:visibility="gone" />
+
+            </FrameLayout>
 
             <!-- Terms text -->
             <TextView
@@ -160,6 +177,7 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
