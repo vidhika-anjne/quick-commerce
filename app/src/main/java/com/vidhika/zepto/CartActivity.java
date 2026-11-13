@@ -25,7 +25,6 @@ public class CartActivity extends AppCompatActivity {
     private NestedScrollView scrollCartContent;
     private LinearLayout layoutEmptyCart;
     private View bottomCheckoutBar;
-    private Button btnEmptyAddProducts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +41,10 @@ public class CartActivity extends AppCompatActivity {
         scrollCartContent = findViewById(R.id.scroll_cart_content);
         layoutEmptyCart = findViewById(R.id.layout_empty_cart);
         bottomCheckoutBar = findViewById(R.id.bottom_checkout_bar);
-        btnEmptyAddProducts = findViewById(R.id.btn_empty_add_products);
 
         View btnBack = findViewById(R.id.btn_back_cart);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());
-        }
-
-        if (btnEmptyAddProducts != null) {
-            btnEmptyAddProducts.setOnClickListener(v -> {
-                Intent intent = new Intent(CartActivity.this, ProductPage.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                finish();
-            });
         }
 
         // Check network state
@@ -100,8 +89,8 @@ public class CartActivity extends AppCompatActivity {
         if (isEmpty) {
             if (scrollCartContent != null) scrollCartContent.setVisibility(View.GONE);
             if (layoutEmptyCart != null) layoutEmptyCart.setVisibility(View.VISIBLE);
-            if (bottomCheckoutBar != null) bottomCheckoutBar.setVisibility(View.GONE);
-            tvTotalPrice.setText("Total: ₹0");
+            if (bottomCheckoutBar != null) bottomCheckoutBar.setVisibility(View.VISIBLE);
+            tvTotalPrice.setText("Total : ₹0");
         } else {
             if (scrollCartContent != null) scrollCartContent.setVisibility(View.VISIBLE);
             if (layoutEmptyCart != null) layoutEmptyCart.setVisibility(View.GONE);
@@ -127,7 +116,7 @@ public class CartActivity extends AppCompatActivity {
 
     private int calculateTotal() {
         int total = CartManager.getInstance().getTotalCartAmount();
-        tvTotalPrice.setText("Total: ₹" + total);
+        tvTotalPrice.setText("Total : ₹" + total);
         return total;
     }
 }

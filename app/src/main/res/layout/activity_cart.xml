@@ -298,13 +298,13 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Empty Cart Fullscreen View -->
+    <!-- Empty Cart View -->
     <LinearLayout
         android:id="@+id/layout_empty_cart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginHorizontal="24dp"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_checkout_bar"
+        android:layout_below="@id/cart_toolbar"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="24dp"
@@ -344,19 +344,6 @@
             android:lineSpacingExtra="2dp"
             android:text="Your cart is empty. Add products to continue."
             android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_empty_add_products"
-            android:layout_width="wrap_content"
-            android:layout_height="46dp"
-            android:layout_marginTop="22dp"
-            android:background="@drawable/bg_button_primary"
-            android:fontFamily="@font/montserrat_black"
-            android:paddingHorizontal="28dp"
-            android:text="Browse Products"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
             android:textSize="14sp" />
 
     </LinearLayout>
