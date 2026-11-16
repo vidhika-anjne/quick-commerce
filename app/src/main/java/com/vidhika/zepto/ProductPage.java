@@ -2,7 +2,9 @@ package com.vidhika.zepto;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +57,15 @@ public class ProductPage extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+
+        // Initialize Notification Channels & request permission
+        NotificationHelper.initChannels(this);
+        requestNotificationPermission();
+
+        // Subscribe to promotional deals topic
+        try {
+            FirebaseMessaging.getInstance().subscribeToTopic("promotions");
+        } catch (Exception ignored) {}
 
         // Load products: from network if available, otherwise from offline persistent cache
         loadProductsWithOfflineSupport();
@@ -204,5 +216,13 @@ public class ProductPage extends AppCompatActivity {
             }
         }
         productAdapter.notifyDataSetChanged();
+    }
+
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
+        }
     }
 }

@@ -43,8 +43,9 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("de.hdodenhof:circleimageview:3.1.0")
 
-    // Firebase Authentication & Cloud Firestore
+    // Firebase Authentication, Cloud Firestore & Cloud Messaging (Push Notifications)
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-messaging")
 }

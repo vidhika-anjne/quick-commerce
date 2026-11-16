@@ -94,8 +94,13 @@ public class PaymentActivity extends AppCompatActivity {
         List<CartItem> cartItems = CartManager.getInstance().getCartItemList();
 
         if (cartItems != null && !cartItems.isEmpty()) {
-            OrderManager.getInstance().createOrderFromCartItems(cartItems, totalAmount, paymentMethod);
+            Order newOrder = OrderManager.getInstance().createOrderFromCartItems(cartItems, totalAmount, paymentMethod);
             CartManager.getInstance().clearCart();
+
+            // Trigger real-time order lifecycle push notifications
+            if (newOrder != null) {
+                NotificationHelper.triggerOrderLifecycleNotifications(this, newOrder.getOrderId(), "₹" + totalAmount);
+            }
         }
 
         Toast.makeText(this, "⚡ Order Placed Successfully via " + paymentMethod + "!", Toast.LENGTH_SHORT).show();

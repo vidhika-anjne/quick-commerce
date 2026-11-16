@@ -47,6 +47,20 @@ public class SettingsActivity extends AppCompatActivity {
             });
         }
 
+        // Demo Promotional Notification trigger
+        View rowTestPromo = findViewById(R.id.row_test_promo_notification);
+        if (rowTestPromo != null) {
+            rowTestPromo.setOnClickListener(v -> {
+                NotificationHelper.showPromotionalNotification(
+                        SettingsActivity.this,
+                        "🎉 Flash Sale: Flat ₹75 OFF!",
+                        "Use promo code ZEPTO75 on orders above ₹299. Valid for the next 2 hours!",
+                        "ZEPTO75"
+                );
+                Toast.makeText(SettingsActivity.this, "⚡ Promotional push notification triggered!", Toast.LENGTH_SHORT).show();
+            });
+        }
+
         // Log out handler
         View btnLogout = findViewById(R.id.btn_logout_settings);
         if (btnLogout != null) {
